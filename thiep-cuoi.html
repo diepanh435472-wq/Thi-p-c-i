@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Thiệp cưới – Eternal Love</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=Playfair+Display:wght@500;700&family=Be+Vietnam+Pro:wght@300;400&display=swap">
+<style>
+:root{--bg:#f1e4cc;--paper:#f7eddb;--red:#8b1a1a;--red2:#6a1010;--gold:#a9822b;--ink:#4a2a22;
+ box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#2a0d0d;--paper:#3a1414;--red:#e07b6e;--red2:#f0a79c;--gold:#d4a94c;--ink:#f1e0c6}}
+:root[data-theme="dark"]{--bg:#2a0d0d;--paper:#3a1414;--red:#e07b6e;--red2:#f0a79c;--gold:#d4a94c;--ink:#f1e0c6}
+*{box-sizing:border-box}
+html{scroll-padding-top:env(safe-area-inset-top,0px);scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:'Be Vietnam Pro',system-ui,sans-serif;font-weight:300;line-height:1.7;
+ background-image:radial-gradient(rgba(139,26,26,.07) 1px,transparent 1px);background-size:14px 14px}
+section{max-width:640px;margin:0 auto;padding:42px 22px;text-align:center}
+.card{max-width:680px;margin:24px auto;padding:10px;background:var(--paper);border:2px solid var(--red);box-shadow:0 0 0 6px var(--paper),0 0 0 7px var(--gold)}
+.card>div{border:1px solid var(--gold);padding:8px 0}
+h1,h2,h3{font-family:'Playfair Display',serif;color:var(--red);margin:0;font-weight:700}
+h2{font-size:1.4rem;margin-bottom:12px;letter-spacing:.06em;text-transform:uppercase}
+h3{font-size:.95rem;letter-spacing:.14em;text-transform:uppercase;margin-bottom:6px}
+.script{font-family:'Cormorant Garamond',serif;font-style:italic;font-size:1.25rem;color:var(--gold)}
+.cap{letter-spacing:.28em;text-transform:uppercase;font-size:.72rem;color:var(--red)}
+.names{font-size:clamp(2rem,9vw,3.2rem);line-height:1.2;margin:10px 0}
+.amp{font-family:'Cormorant Garamond',serif;font-style:italic;font-weight:400;color:var(--gold);display:block;font-size:.6em}
+.orn{display:block;margin:14px auto;width:160px;height:14px;color:var(--gold)}
+p{margin:.35em 0}
+.big{font-family:'Playfair Display',serif;font-size:1.35rem;color:var(--red2);text-transform:uppercase;letter-spacing:.04em}
+.sub{font-size:.85rem;opacity:.8}
+.row{display:flex;gap:14px;flex-wrap:wrap;justify-content:center;margin-top:8px}
+.box{flex:1 1 240px;padding:16px 12px;border:1px solid var(--gold);background:var(--bg)}
+.photos{display:flex;justify-content:center;gap:14px;flex-wrap:wrap}
+.frame{width:min(100%,190px);aspect-ratio:3/4;padding:8px;background:#fffaf0;border:1px solid var(--gold);box-shadow:0 4px 12px rgba(74,42,34,.25);transform:rotate(-1.5deg)}
+.frame:nth-child(2){transform:rotate(1.5deg)}
+.frame img{width:100%;height:100%;object-fit:cover;filter:sepia(.45) contrast(.95)}
+.ph{width:100%;height:100%;display:flex;align-items:center;justify-content:center;border:1px dashed var(--gold);color:#8b6b4a;font-size:.8rem;padding:10px}
+.cd{display:flex;justify-content:center;gap:10px;margin:14px 0}
+.cd div{min-width:64px;padding:8px 4px;border:1px solid var(--gold);background:var(--bg)}
+.cd b{display:block;font-family:'Playfair Display',serif;font-size:1.5rem;color:var(--red)}
+.cd span{font-size:.62rem;letter-spacing:.15em;text-transform:uppercase}
+.btns{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-top:14px}
+.btn{display:inline-block;padding:11px 24px;border:1px solid var(--red);background:transparent;color:var(--red);text-decoration:none;letter-spacing:.12em;text-transform:uppercase;font-size:.72rem;font-family:inherit;cursor:pointer}
+.btn:hover{background:var(--red);color:var(--paper)}
+.btn.fill{background:var(--red);color:var(--paper)}
+.btn.off{opacity:.45;pointer-events:none}
+.map{margin:14px auto 0;max-width:420px;border:1px solid var(--gold);background:var(--bg);padding:6px}
+.map svg{display:block;width:100%;height:auto}
+.sched{list-style:none;margin:14px 0 0;padding:0;text-align:left}
+.sched li{display:flex;gap:14px;padding:11px 0;border-bottom:1px dashed var(--gold);align-items:baseline}
+.sched i{flex:0 0 24px;font-style:normal;font-family:'Playfair Display',serif;color:var(--gold)}
+.sched .t{flex:0 0 58px;font-family:'Playfair Display',serif;color:var(--red)}
+.wishes{max-height:320px;overflow-y:auto;margin-top:14px;text-align:left;padding-right:4px}
+.wish{padding:10px 12px;margin-bottom:8px;border-left:3px solid var(--red);background:var(--bg)}
+.wish b{font-family:'Playfair Display',serif;font-weight:500;color:var(--red)}
+.wish small{opacity:.65;margin-left:8px;font-size:.7rem}
+.wish p{margin:.2em 0 0}
+.fm{max-width:420px;margin:14px auto 0;display:grid;gap:8px;text-align:left}
+.fm input,.fm textarea,.fm select{width:100%;padding:10px;border:1px solid var(--gold);background:var(--bg);color:var(--ink);font:inherit;font-size:.9rem}
+.note{font-size:.8rem;min-height:1.2em;color:var(--red)}
+.gbox{margin:6px auto 0;display:block;width:190px;padding:0;border:0;background:none;cursor:pointer;color:var(--ink);font:inherit}
+.gbox .g{position:relative;height:118px;margin-top:22px;background:var(--red);border:2px solid var(--gold)}
+.gbox .g:before{content:"";position:absolute;left:50%;top:0;bottom:0;width:22px;margin-left:-11px;background:var(--gold)}
+.gbox .lid{position:absolute;left:-8px;right:-8px;top:-24px;height:28px;background:var(--red2);border:2px solid var(--gold);transform-origin:left bottom;transition:transform .6s}
+.gbox .lid:before{content:"";position:absolute;left:50%;top:0;bottom:0;width:22px;margin-left:-11px;background:var(--gold)}
+.gbox.open .lid{transform:rotate(-28deg) translateY(-6px)}
+.gbox .st{display:block;margin-top:8px;color:var(--gold);letter-spacing:.35em;animation:tw 2s infinite}
+@keyframes tw{50%{opacity:.35}}
+.gift{display:none;margin:16px auto 0;padding:16px 22px;border:1px solid var(--gold);background:var(--bg);max-width:340px}
+.gift.show{display:block}
+.gift b{display:block;font-family:'Playfair Display',serif;font-size:1.2rem;color:var(--red);letter-spacing:.06em}
+.qr{width:120px;height:120px;margin:10px auto;border:1px dashed var(--gold);display:flex;align-items:center;justify-content:center;font-size:.75rem;opacity:.7}
+#env{position:fixed;inset:0;z-index:100;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:34px;padding:env(safe-area-inset-top,0px) 16px env(safe-area-inset-bottom,0px);background:#5c0f0f radial-gradient(rgba(247,237,219,.09) 1px,transparent 1px) 0 0/14px 14px;touch-action:none;user-select:none;transition:opacity .9s,filter .9s}
+#env.done{opacity:0;filter:blur(10px);pointer-events:none}
+.ev{position:relative;width:min(86vw,340px);aspect-ratio:3/2;perspective:900px;transition:transform .2s,filter .9s}
+.ev>*{position:absolute}
+.ev .bk{inset:0;background:#6a1010;border:2px solid #d4b062}
+.ev .ec{left:6%;right:6%;top:8%;height:84%;z-index:2;background:#f7eddb;box-shadow:inset 0 0 0 4px #f7eddb,inset 0 0 0 5px #a9822b;color:#4a2a22;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;transition:transform 1s .6s ease}
+.ev .en{font-family:'Playfair Display',serif;color:#8b1a1a;font-size:1.05rem;line-height:1.3;margin-top:6px}
+.ev .fr{inset:0;z-index:3;background:linear-gradient(135deg,#9a2222,#7a1414);clip-path:polygon(0 0,50% 52%,100% 0,100% 100%,0 100%)}
+.ev .ln{inset:0;width:100%;height:100%;z-index:3;pointer-events:none}
+.ev .fl{left:0;right:0;top:0;height:52%;z-index:5;background:linear-gradient(#a82626,#8b1a1a);clip-path:polygon(0 0,100% 0,50% 100%);transform-origin:top;transition:transform .8s ease,z-index 0s .4s}
+.ev .sl{left:50%;top:52%;width:44px;height:44px;margin:-22px 0 0 -22px;z-index:6;border-radius:50%;background:radial-gradient(#d33,#8b1a1a);border:2px solid #d4b062;color:#f7eddb;display:flex;align-items:center;justify-content:center;font:italic 1.3rem 'Cormorant Garamond',serif;transition:opacity .3s}
+#env.open .fl{transform:rotateX(180deg);z-index:1}
+#env.open .sl{opacity:0}
+#env.open .ec{transform:translateY(-60%)}
+#env.done .ev{transform:scale(1.15);filter:blur(4px)}
+.eh{background:none;border:0;color:#f1e0c6;font:inherit;letter-spacing:.22em;text-transform:uppercase;font-size:.72rem;cursor:pointer;text-align:center;transition:opacity .4s}
+.eh i{display:block;width:12px;height:12px;margin:0 auto 10px;border-top:2px solid #d4b062;border-left:2px solid #d4b062;transform:rotate(45deg);animation:up 1.4s infinite}
+@keyframes up{50%{transform:translateY(-8px) rotate(45deg);opacity:.4}}
+#env.open .eh{opacity:0}
+.hn{font-family:'Playfair Display',serif;color:var(--red);font-weight:700}
+.arch{width:min(70%,260px);aspect-ratio:3/4;margin:16px auto;padding:8px;background:#fffaf0;border:1px solid var(--gold);border-radius:999px 999px 6px 6px;box-shadow:0 4px 14px rgba(74,42,34,.25)}
+.arch img{width:100%;height:100%;object-fit:cover;border-radius:999px 999px 2px 2px;filter:sepia(.45) contrast(.95)}
+.arch .ph{border-radius:999px 999px 2px 2px}
+.duo{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:16px}
+.duo .arch{width:100%;margin:0 0 12px}
+.more{display:flex;align-items:center;gap:12px;margin:24px auto 0;max-width:280px;color:var(--red);text-decoration:none;letter-spacing:.2em;text-transform:uppercase;font-size:.75rem}
+.more:before,.more:after{content:"";flex:1;height:1px;background:var(--gold)}
+.more:hover{color:var(--red2)}
+.more.off{opacity:.45;pointer-events:none}
+.pn{font-size:clamp(1.1rem,5vw,1.6rem);line-height:1.25}
+.rv{opacity:0;transform:translateY(16px);transition:opacity .8s,transform .8s}
+.rv.in{opacity:1;transform:none}
+[hidden]{display:none!important}
+footer{padding:24px;text-align:center}
+</style>
+</head>
+<body>
+<div id="env">
+  <div class="ev" id="ev">
+    <div class="bk"></div>
+    <div class="ec"><div class="cap" style="color:#8b1a1a;font-size:.6rem">Thiệp mời</div><div class="en"><span id="eG"></span> &amp; <span id="eB"></span></div></div>
+    <div class="fr"></div>
+    <svg class="ln" viewBox="0 0 300 200" fill="none"><path d="M0 0L150 104L300 0M0 200L110 100M300 200L190 100" stroke="#d4b062" stroke-width="1.5"/></svg>
+    <div class="fl" id="fl"></div>
+    <div class="sl">&amp;</div>
+  </div>
+  <button class="eh" id="eBtn" type="button"><i></i>Kéo lên để mở thiệp</button>
+</div>
+<div class="card"><div>
+
+<section id="couple">
+  <div class="cap">Thiệp cưới</div>
+  <div class="duo">
+    <div><div class="arch" id="cPhotoG"></div><div class="cap" style="font-size:.62rem">Chú rể</div><div class="hn pn" id="hGroom"></div></div>
+    <div><div class="arch" id="cPhotoB"></div><div class="cap" style="font-size:.62rem">Cô dâu</div><div class="hn pn" id="hBride"></div></div>
+  </div>
+</section>
+
+<section id="info">
+  <h2>Thông tin lễ cưới</h2>
+  <div class="row">
+    <div class="box"><h3>Nhà trai</h3><p id="gP"></p><p class="sub" id="gA"></p></div>
+    <div class="box"><h3>Nhà gái</h3><p id="bP"></p><p class="sub" id="bA"></p></div>
+  </div>
+</section>
+
+<section id="main">
+  <div class="cap">Trân trọng báo tin</div>
+  <svg class="orn" viewBox="0 0 160 14" fill="none" stroke="currentColor"><path d="M0 7h60M100 7h60"/><path d="M80 1l6 6-6 6-6-6z" fill="currentColor"/><circle cx="66" cy="7" r="2" fill="currentColor"/><circle cx="94" cy="7" r="2" fill="currentColor"/></svg>
+  <div class="script">Lễ thành hôn của con chúng tôi</div>
+  <h1 class="names"><span id="groom"></span><span class="amp">&amp;</span><span id="bride"></span></h1>
+  <p class="cap" id="ceremony" style="margin-top:18px"></p>
+  <p class="big" id="at"></p>
+  <p class="big" id="dayLine"></p>
+  <p class="sub" id="lunar"></p>
+</section>
+
+<section id="album" class="rv">
+  <h2>Album ảnh</h2>
+  <div class="photos" id="photos"></div>
+  <a class="more" id="moreBtn" href="#" target="_blank" rel="noopener">Xem thêm</a>
+</section>
+
+<section id="count" class="rv">
+  <h2>Cùng đếm ngược</h2>
+  <div class="cd" id="cd"></div>
+  <p class="big" id="monthLine"></p>
+  <div class="btns">
+    <a class="btn" id="calBtn" href="#" target="_blank" rel="noopener">Thêm vào lịch</a>
+    <button class="btn fill" id="rsvpBtn" type="button">Xác nhận tham dự</button>
+  </div>
+  <div class="fm" id="rsvpForm" hidden>
+    <input id="rName" placeholder="Họ và tên" maxlength="60">
+    <select id="rAtt"><option value="yes">Tôi sẽ tham dự</option><option value="no">Rất tiếc, tôi không thể đến</option></select>
+    <select id="rNum"><option>1 người</option><option>2 người</option><option>3 người</option><option>4 người</option><option>5 người</option></select>
+    <button class="btn fill" id="rSend" type="button">Gửi xác nhận</button>
+    <div class="note" id="rNote"></div>
+  </div>
+</section>
+
+<section id="venue" class="rv">
+  <h2>Địa điểm tiệc cưới</h2>
+  <p>Tiệc cưới sẽ tổ chức tại</p>
+  <p class="big" id="vName"></p>
+  <p id="vAddr"></p>
+  <div class="map">
+    <svg viewBox="0 0 400 170" fill="none" stroke="currentColor" style="color:var(--gold)"><rect width="400" height="170" fill="var(--paper)" stroke="none"/><path d="M0 120C80 90 140 140 220 100S340 60 400 80M60 0v170M170 0l50 170M300 0l-40 170M0 40h400" stroke-width="1.5" opacity=".6"/><path d="M200 112c-14-22-26-34-26-48a26 26 0 0152 0c0 14-12 26-26 48z" fill="var(--red)" stroke="var(--gold)" stroke-width="2"/><circle cx="200" cy="64" r="9" fill="var(--paper)" stroke="none"/></svg>
+  </div>
+  <div class="btns"><a class="btn fill" id="dirBtn" href="#" target="_blank" rel="noopener">Chỉ đường</a></div>
+</section>
+
+<section id="prog" class="rv">
+  <h2>Lịch trình ngày cưới</h2>
+  <ul class="sched" id="sched"></ul>
+</section>
+
+<section id="book" class="rv">
+  <h2>Sổ lưu bút</h2>
+  <div class="btns" style="margin-top:0"><button class="btn fill" id="wBtn" type="button">🪄 Gửi lời chúc</button></div>
+  <div class="fm" id="wForm" hidden>
+    <input id="wName" placeholder="Tên của bạn" maxlength="40">
+    <textarea id="wText" rows="3" placeholder="Lời chúc dành cho cô dâu chú rể" maxlength="300"></textarea>
+    <button class="btn fill" id="wSend" type="button">Gửi</button>
+    <div class="note" id="wNote"></div>
+  </div>
+  <div class="wishes" id="wishes"></div>
+</section>
+
+<section id="giftSec" class="rv">
+  <h2>Hộp quà mừng</h2>
+  <button class="gbox" id="gbox" type="button" aria-expanded="false"><div class="g"><div class="lid"></div></div><span class="st">✦✦✦✦</span><span class="sub">Nhấn để mở</span></button>
+  <div class="gift" id="gift"><span class="sub" id="gBank"></span><b id="gNum"></b><span id="gHolder"></span><div class="qr">Mã QR</div><button class="btn" id="copyBtn" type="button">Sao chép số tài khoản</button></div>
+</section>
+
+<section id="thanks" class="rv">
+  <svg class="orn" viewBox="0 0 160 14" fill="none" stroke="currentColor"><path d="M0 7h60M100 7h60"/><path d="M80 1l6 6-6 6-6-6z" fill="currentColor"/></svg>
+  <p class="script" style="font-size:1.5rem">Sự hiện diện của quý khách là niềm vinh hạnh của gia đình chúng tôi!</p>
+</section>
+
+</div></div>
+<footer class="cap" style="font-size:.65rem;opacity:.7">Eternal Love · <span id="yr"></span></footer>
+
+<script>
+/* ===== CẤU HÌNH: chỉ cần sửa phần này. "N/A" và "xx" là chỗ chờ điền thông tin thật ===== */
+const weddingConfig = {
+  groom: "N/A",
+  bride: "N/A",
+  groomFamily: { parents: "N/A", address: "N/A" },   // ví dụ parents: "Ông Nguyễn Văn X & Bà Trần Thị Y"
+  brideFamily: { parents: "N/A", address: "N/A" },
+  groomPhoto: "", bridePhoto: "",
+  albumUrl: "",         // link trang album đầy đủ cho nút "Xem thêm"     // ảnh cô dâu chú rể ở đầu thiệp
+  ceremonyAt: "Nhà Trai",
+  date: null,          // ví dụ "2027-03-20T11:00:00"
+  lunar: "",           // ví dụ "Tức ngày 11 tháng 02 năm Đinh Mùi"
+  venue: "",           // tên nơi tổ chức tiệc
+  address: "",
+  mapUrl: "",          // link Google Maps (nếu để trống sẽ tự tạo từ tên/địa chỉ)
+  photos: [],          // tối đa 3 ảnh
+  schedule: [          // lịch trình mẫu, sửa theo thực tế
+    ["14:00","Lễ gia tiên tại nhà gái"],["15:30","Đón dâu"],["17:00","Lễ gia tiên tại nhà trai"],
+    ["18:00","Đón khách"],["18:30","Nghi thức thành hôn"],["19:00","Rót rượu giao bôi và cắt bánh"],
+    ["19:30","Khai tiệc"],["20:30","Cô dâu chú rể chúc mừng từng bàn"],["22:00","Kết thúc tiệc"]
+  ],
+  showSampleWishes: true,   // đặt false khi đã có lời chúc thật
+  sampleWishes: [
+    ["Bạn cùng phòng ký túc","16:00:00 26/1/2027","Chúc hai bạn ngàn năm hạnh phúc 🥂"],
+    ["Tập thể lớp 12A2","17:00:00 25/1/2027","Chúc mừng bạn thân của tui đã lên xe hoa!"],
+    ["Bảo Ngọc","18:00:00 24/1/2027","Chúc anh chị luôn nắm tay nhau thật chặt."],
+    ["Chú Tư","19:00:00 23/1/2027","Chúc hai cháu mạnh khỏe, làm ăn suôn sẻ, nhà cửa ấm êm."],
+    ["Bà ngoại","20:00:00 22/1/2027","Chúc mừng hai con, cả nhà thương các con nhiều."],
+    ["Anh Quân","21:00:00 21/1/2027","Chúc vợ chồng em luôn thuận hòa."],
+    ["Nguyễn Minh Tuấn","22:00:00 20/1/2027","Ôi cuối cùng cũng tới ngày này rồi! Hạnh phúc nha."],
+    ["Võ Hoàng Long","23:00:00 19/1/2027","Chúc hai bạn mãi là điểm tựa của nhau."]
+  ],
+  gift: { bank: "", number: "", holder: "" }
+};
+/* ======================================================================================= */
+const $=id=>document.getElementById(id), c=weddingConfig, p2=n=>String(n).padStart(2,'0');
+const esc=s=>String(s).replace(/[&<>"]/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[m]));
+$('groom').textContent=c.groom; $('bride').textContent=c.bride; $('yr').textContent=new Date().getFullYear();
+$('hGroom').textContent=c.groom; $('hBride').textContent=c.bride; $('eG').textContent=c.groom; $('eB').textContent=c.bride;
+[['cPhotoG',c.groomPhoto,'Chú rể'],['cPhotoB',c.bridePhoto,'Cô dâu']].forEach(([id,src,l])=>{$(id).innerHTML=src?`<img alt="${l}">`:`<div class="ph">Ảnh ${l.toLowerCase()}</div>`;if(src)$(id).firstChild.src=src});
+$('gP').textContent='Ông bà: '+c.groomFamily.parents; $('gA').textContent='Địa chỉ: '+c.groomFamily.address;
+$('bP').textContent='Ông bà: '+c.brideFamily.parents; $('bA').textContent='Địa chỉ: '+c.brideFamily.address;
+$('ceremony').textContent='Lễ thành hôn '+c.ceremonyAt;
+
+/* Ngày giờ */
+const d=c.date?new Date(c.date):null, ok=d&&!isNaN(d);
+if(ok){
+  $('at').textContent='Vào lúc '+p2(d.getHours())+':'+p2(d.getMinutes())+' - '+d.toLocaleDateString('vi-VN',{weekday:'long'});
+  $('dayLine').textContent='Ngày '+p2(d.getDate())+' tháng '+p2(d.getMonth()+1)+' năm '+d.getFullYear();
+  $('monthLine').textContent='Tháng '+(d.getMonth()+1)+' / '+d.getFullYear();
+  const f=x=>x.toISOString().replace(/[-:]|\.\d{3}/g,'');
+  $('calBtn').href='https://calendar.google.com/calendar/render?action=TEMPLATE&text='+encodeURIComponent('Đám cưới '+c.groom+' & '+c.bride)+'&dates='+f(d)+'/'+f(new Date(+d+4*3600e3))+'&location='+encodeURIComponent((c.venue+' '+c.address).trim());
+}else{
+  $('at').textContent='Vào lúc xx:xx - thứ x';
+  $('dayLine').textContent='Ngày XX tháng XX năm 20XX';
+  $('monthLine').textContent='Tháng x / 20xx';
+  $('calBtn').classList.add('off');
+}
+$('lunar').textContent=c.lunar?'('+c.lunar+')':'(Tức ngày XX tháng XX năm XXXXXXXXX)';
+
+/* Đếm ngược */
+const cdv=(a,b,e,f)=>$('cd').innerHTML=[[a,'Ngày'],[b,'Giờ'],[e,'Phút'],[f,'Giây']].map(([x,l])=>`<div><b>${x}</b><span>${l}</span></div>`).join('');
+if(ok){const tick=()=>{let s=Math.max(0,Math.floor((d-Date.now())/1000));const v=[86400,3600,60,1].map(n=>{const x=Math.floor(s/n);s%=n;return x});cdv(...v)};tick();setInterval(tick,1000)}
+else cdv('xx','xx','xx','xx');
+
+/* Địa điểm */
+$('vName').textContent=c.venue||'xxx'; $('vAddr').textContent=c.address;
+const dest=(c.venue+' '+c.address).trim();
+if(c.mapUrl||dest) $('dirBtn').href=c.mapUrl||('https://www.google.com/maps/dir/?api=1&destination='+encodeURIComponent(dest));
+else $('dirBtn').classList.add('off');
+
+/* Lịch trình */
+$('sched').innerHTML=c.schedule.map((s,i)=>`<li><i>${i+1}.</i><span class="t">${esc(s[0])}</span><span>${esc(s[1])}</span></li>`).join('');
+
+/* Ảnh */
+const n=Math.min(c.photos.length||3,3);
+for(let i=0;i<n;i++){const f=document.createElement('div');f.className='frame';
+  f.innerHTML=c.photos[i]?'<img alt="Ảnh cưới">':'<div class="ph">Ảnh sẽ được cập nhật</div>';
+  if(c.photos[i]) f.firstChild.src=c.photos[i]; $('photos').appendChild(f)}
+
+if(c.albumUrl) $('moreBtn').href=c.albumUrl; else $('moreBtn').classList.add('off');
+
+/* Hộp quà */
+const g=c.gift;
+$('gBank').textContent=g.bank||'Thông tin sẽ được cập nhật'; $('gNum').textContent=g.number; $('gHolder').textContent=g.holder;
+$('gbox').onclick=()=>{const o=$('gbox').classList.toggle('open');$('gift').classList.toggle('show',o);$('gbox').setAttribute('aria-expanded',o)};
+$('copyBtn').hidden=!g.number;
+$('copyBtn').onclick=async()=>{const b=$('copyBtn');try{await navigator.clipboard.writeText(g.number);b.textContent='Đã sao chép'}catch(e){b.textContent='Hãy chép số ở trên'}setTimeout(()=>b.textContent='Sao chép số tài khoản',2500)};
+
+/* Sổ lưu bút + xác nhận tham dự (dữ liệu dùng chung qua db; không có db thì chỉ xem mẫu) */
+let db=null, live=[];
+const NOA='Chưa gửi được ở chế độ xem này. Bạn hãy mở thiệp bằng liên kết được chia sẻ và đăng nhập.';
+const fmt=ms=>{const t=new Date(ms);return t.toLocaleTimeString('vi-VN')+' '+t.getDate()+'/'+(t.getMonth()+1)+'/'+t.getFullYear()};
+function drawWishes(){
+  const items=live.map(w=>[w.name,fmt(w.ts),w.text]).concat(c.showSampleWishes?c.sampleWishes:[]);
+  $('wishes').innerHTML=items.map(w=>`<div class="wish"><b>${esc(w[0])}</b><small>${esc(w[1])}</small><p>${esc(w[2])}</p></div>`).join('')||'<p class="sub">Hãy là người đầu tiên gửi lời chúc.</p>';
+}
+drawWishes();
+(async()=>{try{
+  db=window.claude?await claude.use('db'):null;
+  if(db) db.collection('wishes').orderBy('ts','desc').limit(100).onSnapshot(s=>{live=s.docs.map(x=>x.data());drawWishes()},()=>{});
+}catch(e){db=null}})();
+$('wBtn').onclick=()=>{$('wForm').hidden=!$('wForm').hidden};
+$('wSend').onclick=async()=>{
+  const name=$('wName').value.trim(), text=$('wText').value.trim(), note=$('wNote');
+  if(!name||!text){note.textContent='Vui lòng nhập tên và lời chúc.';return}
+  if(!db){note.textContent=NOA;return}
+  try{await db.collection('wishes').add({name,text,ts:Date.now()});$('wText').value='';note.textContent='Cảm ơn lời chúc của bạn!'}
+  catch(e){note.textContent='Chưa gửi được lúc này, bạn thử lại sau nhé.'}
+};
+$('rsvpBtn').onclick=()=>{$('rsvpForm').hidden=!$('rsvpForm').hidden};
+$('rSend').onclick=async()=>{
+  const name=$('rName').value.trim(), note=$('rNote');
+  if(!name){note.textContent='Vui lòng nhập họ tên.';return}
+  if(!db){note.textContent=NOA;return}
+  try{await db.collection('rsvp').add({name,attend:$('rAtt').value,guests:$('rNum').value,ts:Date.now()});note.textContent='Đã nhận xác nhận của bạn, xin cảm ơn!'}
+  catch(e){note.textContent='Chưa gửi được lúc này, bạn thử lại sau nhé.'}
+};
+
+/* Phong thư: kéo lên (hoặc cuộn / chạm / phím) để mở */
+(function(){
+  const env=$('env'), ev=$('ev'), fl=$('fl'); let y0=null, opened=false;
+  const root=document.documentElement; root.style.overflow='hidden';
+  const reset=()=>{y0=null;ev.style.transform='';fl.style.transform=''};
+  function open(){ if(opened) return; opened=true; reset(); env.classList.add('open');
+    setTimeout(()=>{env.classList.add('done');root.style.overflow='';window.scrollTo(0,0)},2700);
+    setTimeout(()=>env.remove(),3700); }
+  env.addEventListener('pointerdown',e=>{y0=e.clientY});
+  env.addEventListener('pointermove',e=>{ if(y0===null||opened) return; const dy=y0-e.clientY;
+    if(dy>0){ev.style.transform='translateY('+(-Math.min(dy,60)/3)+'px)';fl.style.transform='rotateX('+Math.min(dy,100)*.5+'deg)'}
+    if(dy>70) open(); });
+  env.addEventListener('pointerup',reset); env.addEventListener('pointercancel',reset);
+  env.addEventListener('wheel',e=>{if(e.deltaY>10) open()},{passive:true});
+  $('eBtn').addEventListener('click',open);
+  addEventListener('keydown',e=>{if(['ArrowUp','ArrowDown','Enter',' '].includes(e.key)) open()});
+})();
+
+/* Hiệu ứng hiện dần */
+const els=document.querySelectorAll('.rv');
+if('IntersectionObserver' in window){const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target)}}),{threshold:.1});els.forEach(e=>io.observe(e))}
+else els.forEach(e=>e.classList.add('in'));
+</script>
+</body>
+</html>
