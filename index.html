@@ -215,10 +215,10 @@ footer{padding:24px;text-align:center}
 <script>
 /* ===== CẤU HÌNH: chỉ cần sửa phần này. "N/A" và "xx" là chỗ chờ điền thông tin thật ===== */
 const weddingConfig = {
-  groom: "N/A",
-  bride: "N/A",
-  groomFamily: { parents: "N/A", address: "N/A" },   // ví dụ parents: "Ông Nguyễn Văn X & Bà Trần Thị Y"
-  brideFamily: { parents: "N/A", address: "N/A" },
+  groom: "CHÍ HẢI",
+  bride: "TRANG NINH",
+  groomFamily: { father: "ĐẶNG CHÍ DŨNG", mother: "NGUYỄN THỊ THẮNG", address: "N/A" },   // father/mother: chỉ ghi tên, chữ "Ông" và "Bà" tự thêm
+  brideFamily: { father: "TRẦN NGỌC TUẤN", mother: "NGUYỄN THỊ HÀO", address: "Thôn Phúc Lộc (Thôn Hòe Thị cũ), Xã Thượng Phúc, Thành phố Hà Nội", oldAddress: "Thôn Hòe Thị, Xã Nguyễn Trãi, Huyện Thường Tín, Thành phố Hà Nội" },
   groomPhoto: "", bridePhoto: "",
   albumUrl: "",         // link trang album đầy đủ cho nút "Xem thêm"     // ảnh cô dâu chú rể ở đầu thiệp
   ceremonyAt: "Nhà Trai",
@@ -252,8 +252,8 @@ const esc=s=>String(s).replace(/[&<>"]/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;',
 $('groom').textContent=c.groom; $('bride').textContent=c.bride; $('yr').textContent=new Date().getFullYear();
 $('hGroom').textContent=c.groom; $('hBride').textContent=c.bride; $('eG').textContent=c.groom; $('eB').textContent=c.bride;
 [['cPhotoG',c.groomPhoto,'Chú rể'],['cPhotoB',c.bridePhoto,'Cô dâu']].forEach(([id,src,l])=>{$(id).innerHTML=src?`<img alt="${l}">`:`<div class="ph">Ảnh ${l.toLowerCase()}</div>`;if(src)$(id).firstChild.src=src});
-$('gP').textContent='Ông bà: '+c.groomFamily.parents; $('gA').textContent='Địa chỉ: '+c.groomFamily.address;
-$('bP').textContent='Ông bà: '+c.brideFamily.parents; $('bA').textContent='Địa chỉ: '+c.brideFamily.address;
+const par=f=>'Ông '+esc(f.father)+'<br>Bà '+esc(f.mother); $('gP').innerHTML=par(c.groomFamily); $('gA').textContent='Địa chỉ: '+c.groomFamily.address;
+$('bP').innerHTML=par(c.brideFamily); $('bA').innerHTML='Địa chỉ: '+esc(c.brideFamily.address)+(c.brideFamily.oldAddress?'<br><span class="tbd">(trước đây: '+esc(c.brideFamily.oldAddress)+')</span>':'');
 $('ceremony').textContent='Lễ thành hôn '+c.ceremonyAt;
 
 /* Ngày giờ */
