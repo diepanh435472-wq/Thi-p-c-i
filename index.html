@@ -47,6 +47,8 @@ p{margin:.35em 0}
 .btn.off{opacity:.45;pointer-events:none}
 .map{margin:14px auto 0;max-width:420px;border:1px solid var(--gold);background:var(--bg);padding:6px}
 .map svg{display:block;width:100%;height:auto}
+.map.live{max-width:560px}
+.map iframe{display:block;width:100%;height:300px;border:0;filter:sepia(.45) saturate(.85) contrast(.95)}
 .sched{list-style:none;margin:14px 0 0;padding:0;text-align:left}
 .sched li{display:flex;gap:14px;padding:11px 0;border-bottom:1px dashed var(--gold);align-items:baseline}
 .sched i{flex:0 0 24px;font-style:normal;font-family:'Playfair Display',serif;color:var(--gold)}
@@ -254,15 +256,18 @@ footer{padding:24px;text-align:center}
 const weddingConfig = {
   groom: "CHÍ HẢI",
   bride: "TRANG NINH",
-  groomFamily: { father: "ĐẶNG CHÍ DŨNG", mother: "NGUYỄN THỊ THẮNG", address: "N/A" },   // father/mother: chỉ ghi tên, chữ "Ông" và "Bà" tự thêm
+  groomFamily: { father: "ĐẶNG CHÍ DŨNG", mother: "NGUYỄN THỊ THẮNG", address: "Thôn Hang Đùng, Xã Minh Hòa, Tỉnh Phú Thọ", oldAddress: "Thôn Hang Đùng, Xã Ngọc Lập, Huyện Yên Lập, Tỉnh Phú Thọ" },   // father/mother: chỉ ghi tên, chữ "Ông" và "Bà" tự thêm
   brideFamily: { father: "TRẦN NGỌC TUẤN", mother: "NGUYỄN THỊ HÀO", address: "Thôn Phúc Lộc (Thôn Hòe Thị cũ), Xã Thượng Phúc, Thành phố Hà Nội", oldAddress: "Thôn Hòe Thị, Xã Nguyễn Trãi, Huyện Thường Tín, Thành phố Hà Nội" },
   groomPhoto: "", bridePhoto: "",
   albumUrl: "",         // link trang album đầy đủ cho nút "Xem thêm"     // ảnh cô dâu chú rể ở đầu thiệp
   ceremonyAt: "Nhà Trai",
   date: "2026-12-27T10:00:00+07:00",          // giờ Việt Nam, dạng "2027-03-20T11:00:00+07:00"
   lunar: "Tức ngày 19 tháng 11 năm Bính Ngọ",           // ví dụ "Tức ngày 11 tháng 02 năm Đinh Mùi"
-  venue: "",           // tên nơi tổ chức tiệc
-  address: "",
+  venue: "Nhà Trai",           // tên nơi tổ chức tiệc
+  address: "Thôn Hang Đùng, Xã Minh Hòa, Tỉnh Phú Thọ",
+  mapQuery: "21.260889,105.083194",       // địa chỉ dùng để tìm trên bản đồ (trống = dùng địa chỉ ở trên)
+  mapEmbed: "",       // dán link "Nhúng bản đồ" của Google Maps nếu muốn ghim chính xác
+  embedMap: true,     // false = dùng bản đồ minh họa thay cho Google Map
   mapUrl: "",          // link Google Maps (nếu để trống sẽ tự tạo từ tên/địa chỉ)
   photos: [],          // tối đa 3 ảnh
   schedule: [],        // lịch trình trong ngày, ví dụ: ["14:00","Lễ gia tiên"], ["18:30","Nghi thức thành hôn"]
@@ -277,7 +282,7 @@ const esc=s=>String(s).replace(/[&<>"]/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;',
 $('groom').textContent=c.groom; $('bride').textContent=c.bride; $('yr').textContent=new Date().getFullYear();
 $('hGroom').textContent=c.groom; $('hBride').textContent=c.bride; $('eG').textContent=c.groom; $('eB').textContent=c.bride;
 [['cPhotoG',c.groomPhoto,'Chú rể'],['cPhotoB',c.bridePhoto,'Cô dâu']].forEach(([id,src,l])=>{$(id).innerHTML=src?`<img alt="${l}">`:`<div class="ph">Ảnh ${l.toLowerCase()}</div>`;if(src)$(id).firstChild.src=src});
-const par=f=>'Ông '+esc(f.father)+'<br>Bà '+esc(f.mother); $('gP').innerHTML=par(c.groomFamily); $('gA').textContent='Địa chỉ: '+c.groomFamily.address;
+const par=f=>'Ông '+esc(f.father)+'<br>Bà '+esc(f.mother); $('gP').innerHTML=par(c.groomFamily); $('gA').innerHTML='Địa chỉ: '+esc(c.groomFamily.address)+(c.groomFamily.oldAddress?'<br><span class="tbd">(trước đây: '+esc(c.groomFamily.oldAddress)+')</span>':'');
 $('bP').innerHTML=par(c.brideFamily); $('bA').innerHTML='Địa chỉ: '+esc(c.brideFamily.address)+(c.brideFamily.oldAddress?'<br><span class="tbd">(trước đây: '+esc(c.brideFamily.oldAddress)+')</span>':'');
 $('ceremony').textContent='Lễ thành hôn '+c.ceremonyAt;
 
@@ -304,8 +309,14 @@ if(ok){const tick=()=>{let s=Math.max(0,Math.floor((d-Date.now())/1000));const v
 else cdv('xx','xx','xx','xx');
 
 /* Địa điểm */
-$('vName').textContent=c.venue||'xxx'; $('vAddr').textContent=c.address;
-const dest=(c.venue+' '+c.address).trim();
+$('vName').textContent=c.venue||'xxx'; $('vAddr').textContent=c.address?'Địa chỉ: '+c.address:'';
+const dest=(c.mapQuery||c.address||c.venue||'').trim();
+if(c.embedMap!==false&&(c.mapEmbed||dest)){
+  const f=document.createElement('iframe');
+  f.title='Bản đồ địa điểm tiệc cưới'; f.loading='lazy'; f.referrerPolicy='no-referrer-when-downgrade'; f.allowFullscreen=true;
+  f.src=c.mapEmbed||('https://www.google.com/maps?q='+encodeURIComponent(dest)+'&hl=vi&z=15&output=embed');
+  const m=document.querySelector('.map'); m.innerHTML=''; m.classList.add('live'); m.appendChild(f);
+}
 if(c.mapUrl||dest) $('dirBtn').href=c.mapUrl||('https://www.google.com/maps/dir/?api=1&destination='+encodeURIComponent(dest));
 else $('dirBtn').classList.add('off');
 
