@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Thiệp cưới – Eternal Love</title>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=Playfair+Display:wght@500;700&family=Be+Vietnam+Pro:wght@300;400&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=Playfair+Display:wght@500;700&family=Be+Vietnam+Pro:wght@300;400&family=Lora:wght@500;600&display=swap">
 <style>
 :root{--bg:#f1e4cc;--paper:#f7eddb;--red:#8b1a1a;--red2:#6a1010;--gold:#a9822b;--ink:#4a2a22;
  box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
@@ -28,6 +28,7 @@ h3{font-size:.95rem;letter-spacing:.14em;text-transform:uppercase;margin-bottom:
 p{margin:.35em 0}
 .big{font-family:'Playfair Display',serif;font-size:1.35rem;color:var(--red2);text-transform:uppercase;letter-spacing:.04em}
 .sub{font-size:.85rem;opacity:.8}
+.cal{font-size:.68rem;margin:2px 0 0}
 .row{display:flex;gap:14px;flex-wrap:wrap;justify-content:center;margin-top:8px}
 .box{flex:1 1 240px;padding:16px 12px;border:1px solid var(--gold);background:var(--bg)}
 .photos{display:flex;justify-content:center;gap:14px;flex-wrap:wrap}
@@ -100,6 +101,10 @@ p{margin:.35em 0}
 .more:hover{color:var(--red2)}
 .more.off{opacity:.45;pointer-events:none}
 .pn{font-size:clamp(1.1rem,5vw,1.6rem);line-height:1.25}
+body{font-variant-numeric:lining-nums}
+.big,.cd b,.sched i,.sched .t,.gift b{font-family:'Lora','Playfair Display',Georgia,serif;font-weight:600;font-variant-numeric:lining-nums}
+.big{font-size:clamp(1rem,4.6vw,1.25rem);line-height:1.6}
+.cd b{font-size:1.4rem}
 .rv{opacity:0;transform:translateY(16px);transition:opacity .8s,transform .8s}
 .rv.in{opacity:1;transform:none}
 [hidden]{display:none!important}
@@ -144,7 +149,9 @@ footer{padding:24px;text-align:center}
   <p class="cap" id="ceremony" style="margin-top:18px"></p>
   <p class="big" id="at"></p>
   <p class="big" id="dayLine"></p>
-  <p class="sub" id="lunar"></p>
+  <p class="cap cal">(Theo dương lịch)</p>
+  <p class="big" id="lunar" style="margin-top:14px"></p>
+  <p class="cap cal">(Theo âm lịch)</p>
 </section>
 
 <section id="album" class="rv">
@@ -222,28 +229,15 @@ const weddingConfig = {
   groomPhoto: "", bridePhoto: "",
   albumUrl: "",         // link trang album đầy đủ cho nút "Xem thêm"     // ảnh cô dâu chú rể ở đầu thiệp
   ceremonyAt: "Nhà Trai",
-  date: null,          // ví dụ "2027-03-20T11:00:00"
-  lunar: "",           // ví dụ "Tức ngày 11 tháng 02 năm Đinh Mùi"
+  date: "2026-12-27T10:00:00+07:00",          // giờ Việt Nam, dạng "2027-03-20T11:00:00+07:00"
+  lunar: "Tức ngày 19 tháng 11 năm Bính Ngọ",           // ví dụ "Tức ngày 11 tháng 02 năm Đinh Mùi"
   venue: "",           // tên nơi tổ chức tiệc
   address: "",
   mapUrl: "",          // link Google Maps (nếu để trống sẽ tự tạo từ tên/địa chỉ)
   photos: [],          // tối đa 3 ảnh
-  schedule: [          // lịch trình mẫu, sửa theo thực tế
-    ["14:00","Lễ gia tiên tại nhà gái"],["15:30","Đón dâu"],["17:00","Lễ gia tiên tại nhà trai"],
-    ["18:00","Đón khách"],["18:30","Nghi thức thành hôn"],["19:00","Rót rượu giao bôi và cắt bánh"],
-    ["19:30","Khai tiệc"],["20:30","Cô dâu chú rể chúc mừng từng bàn"],["22:00","Kết thúc tiệc"]
-  ],
-  showSampleWishes: true,   // đặt false khi đã có lời chúc thật
-  sampleWishes: [
-    ["Bạn cùng phòng ký túc","16:00:00 26/1/2027","Chúc hai bạn ngàn năm hạnh phúc 🥂"],
-    ["Tập thể lớp 12A2","17:00:00 25/1/2027","Chúc mừng bạn thân của tui đã lên xe hoa!"],
-    ["Bảo Ngọc","18:00:00 24/1/2027","Chúc anh chị luôn nắm tay nhau thật chặt."],
-    ["Chú Tư","19:00:00 23/1/2027","Chúc hai cháu mạnh khỏe, làm ăn suôn sẻ, nhà cửa ấm êm."],
-    ["Bà ngoại","20:00:00 22/1/2027","Chúc mừng hai con, cả nhà thương các con nhiều."],
-    ["Anh Quân","21:00:00 21/1/2027","Chúc vợ chồng em luôn thuận hòa."],
-    ["Nguyễn Minh Tuấn","22:00:00 20/1/2027","Ôi cuối cùng cũng tới ngày này rồi! Hạnh phúc nha."],
-    ["Võ Hoàng Long","23:00:00 19/1/2027","Chúc hai bạn mãi là điểm tựa của nhau."]
-  ],
+  schedule: [],        // lịch trình trong ngày, ví dụ: ["14:00","Lễ gia tiên"], ["18:30","Nghi thức thành hôn"]
+  showSampleWishes: false,  // đặt true để hiện lời chúc mẫu
+  sampleWishes: [],
   gift: { bank: "", number: "", holder: "" }
 };
 /* ======================================================================================= */
@@ -259,9 +253,10 @@ $('ceremony').textContent='Lễ thành hôn '+c.ceremonyAt;
 /* Ngày giờ */
 const d=c.date?new Date(c.date):null, ok=d&&!isNaN(d);
 if(ok){
-  $('at').textContent='Vào lúc '+p2(d.getHours())+':'+p2(d.getMinutes())+' - '+d.toLocaleDateString('vi-VN',{weekday:'long'});
-  $('dayLine').textContent='Ngày '+p2(d.getDate())+' tháng '+p2(d.getMonth()+1)+' năm '+d.getFullYear();
-  $('monthLine').textContent='Tháng '+(d.getMonth()+1)+' / '+d.getFullYear();
+  const P=Object.fromEntries(new Intl.DateTimeFormat('vi-VN',{timeZone:'Asia/Ho_Chi_Minh',hour:'2-digit',minute:'2-digit',hourCycle:'h23',weekday:'long',day:'2-digit',month:'2-digit',year:'numeric'}).formatToParts(d).map(x=>[x.type,x.value]));
+  $('at').textContent='Vào lúc '+P.hour+':'+P.minute+' - '+P.weekday;
+  $('dayLine').textContent='Ngày '+P.day+' tháng '+P.month+' năm '+P.year;
+  $('monthLine').textContent='Tháng '+(+P.month)+' / '+P.year;
   const f=x=>x.toISOString().replace(/[-:]|\.\d{3}/g,'');
   $('calBtn').href='https://calendar.google.com/calendar/render?action=TEMPLATE&text='+encodeURIComponent('Đám cưới '+c.groom+' & '+c.bride)+'&dates='+f(d)+'/'+f(new Date(+d+4*3600e3))+'&location='+encodeURIComponent((c.venue+' '+c.address).trim());
 }else{
@@ -270,7 +265,7 @@ if(ok){
   $('monthLine').textContent='Tháng x / 20xx';
   $('calBtn').classList.add('off');
 }
-$('lunar').textContent=c.lunar?'('+c.lunar+')':'(Tức ngày XX tháng XX năm XXXXXXXXX)';
+$('lunar').textContent=c.lunar||'Tức ngày XX tháng XX năm XXXXXXXXX';
 
 /* Đếm ngược */
 const cdv=(a,b,e,f)=>$('cd').innerHTML=[[a,'Ngày'],[b,'Giờ'],[e,'Phút'],[f,'Giây']].map(([x,l])=>`<div><b>${x}</b><span>${l}</span></div>`).join('');
@@ -284,7 +279,7 @@ if(c.mapUrl||dest) $('dirBtn').href=c.mapUrl||('https://www.google.com/maps/dir/
 else $('dirBtn').classList.add('off');
 
 /* Lịch trình */
-$('sched').innerHTML=c.schedule.map((s,i)=>`<li><i>${i+1}.</i><span class="t">${esc(s[0])}</span><span>${esc(s[1])}</span></li>`).join('');
+$('sched').innerHTML=!c.schedule.length?'<li><span class="tbd">Lịch trình sẽ được cập nhật</span></li>':c.schedule.map((s,i)=>`<li><i>${i+1}.</i><span class="t">${esc(s[0])}</span><span>${esc(s[1])}</span></li>`).join('');
 
 /* Ảnh */
 const n=Math.min(c.photos.length||3,3);
