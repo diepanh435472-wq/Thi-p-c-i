@@ -105,6 +105,36 @@ body{font-variant-numeric:lining-nums}
 .big,.cd b,.sched i,.sched .t,.gift b{font-family:'Lora','Playfair Display',Georgia,serif;font-weight:600;font-variant-numeric:lining-nums}
 .big{font-size:clamp(1rem,4.6vw,1.25rem);line-height:1.6}
 .cd b{font-size:1.4rem}
+@keyframes rise{from{opacity:0;transform:translateY(26px) scale(.96)}to{opacity:1;transform:none}}
+body.pre #couple .cap,body.pre #couple .duo>div{opacity:0}
+body.opened #couple .cap{animation:rise .9s .1s both}
+body.opened #couple .duo>div:nth-child(1){animation:rise 1s .35s both}
+body.opened #couple .duo>div:nth-child(2){animation:rise 1s .65s both}
+.amp{animation:glow 3s ease-in-out infinite}
+@keyframes glow{50%{text-shadow:0 0 14px var(--gold)}}
+.orn path:first-child{stroke-dasharray:130}
+.rv.in .orn path:first-child{animation:draw 1.6s ease-out backwards}
+@keyframes draw{from{stroke-dashoffset:130}}
+.frame{transition:transform .3s,box-shadow .3s}
+.rv.in .frame{animation:pop .9s backwards}
+.rv.in .frame:nth-child(2){animation-delay:.15s}
+.rv.in .frame:nth-child(3){animation-delay:.3s}
+@keyframes pop{from{opacity:0;transform:translateY(34px) rotate(-8deg) scale(.92)}}
+.frame:hover,.frame:nth-child(2):hover{transform:rotate(0) translateY(-5px) scale(1.03);box-shadow:0 10px 22px rgba(74,42,34,.35)}
+.cd div:last-child b{animation:tick 1s ease-out}
+@keyframes tick{0%{transform:scale(1.25);color:var(--gold)}100%{transform:none}}
+.map path[fill="var(--red)"]{transform-box:fill-box;transform-origin:50% 100%;animation:pin 2s ease-in-out infinite}
+@keyframes pin{50%{transform:translateY(-7px)}}
+.btn{transition:background .3s,color .3s,transform .2s}
+.btn:active{transform:scale(.96)}
+.gbox:not(.open) .g{animation:wig 3.2s ease-in-out infinite}
+@keyframes wig{0%,80%,100%{transform:none}84%{transform:rotate(-3deg)}88%{transform:rotate(3deg)}92%{transform:rotate(-2deg)}96%{transform:rotate(2deg)}}
+.wish{animation:wsl .5s backwards}
+@keyframes wsl{from{opacity:0;transform:translateX(-14px)}}
+#petals{position:fixed;inset:0;pointer-events:none;overflow:hidden;z-index:50}
+#petals i{position:absolute;top:-24px;width:var(--s);height:calc(var(--s)*1.4);background:radial-gradient(circle at 30% 30%,#e8564f,#8b1a1a);border-radius:70% 0 70% 0;opacity:.55;animation:fall var(--d) linear var(--w) infinite}
+@keyframes fall{to{transform:translate(var(--x),110vh) rotate(540deg)}}
+@media(prefers-reduced-motion:reduce){*,*:before,*:after{animation:none!important;transition:none!important}.rv{opacity:1!important;transform:none!important}body.pre #couple .cap,body.pre #couple .duo>div{opacity:1}#petals{display:none}}
 .rv{opacity:0;transform:translateY(16px);transition:opacity .8s,transform .8s}
 .rv.in{opacity:1;transform:none}
 [hidden]{display:none!important}
@@ -133,7 +163,7 @@ footer{padding:24px;text-align:center}
   </div>
 </section>
 
-<section id="info">
+<section id="info" class="rv">
   <h2>Thông tin lễ cưới</h2>
   <div class="row">
     <div class="box"><h3>Nhà trai</h3><p id="gP"></p><p class="sub" id="gA"></p></div>
@@ -141,7 +171,7 @@ footer{padding:24px;text-align:center}
   </div>
 </section>
 
-<section id="main">
+<section id="main" class="rv">
   <div class="cap">Trân trọng báo tin</div>
   <svg class="orn" viewBox="0 0 160 14" fill="none" stroke="currentColor"><path d="M0 7h60M100 7h60"/><path d="M80 1l6 6-6 6-6-6z" fill="currentColor"/><circle cx="66" cy="7" r="2" fill="currentColor"/><circle cx="94" cy="7" r="2" fill="currentColor"/></svg>
   <div class="script">Lễ thành hôn của con chúng tôi</div>
@@ -236,6 +266,7 @@ const weddingConfig = {
   mapUrl: "",          // link Google Maps (nếu để trống sẽ tự tạo từ tên/địa chỉ)
   photos: [],          // tối đa 3 ảnh
   schedule: [],        // lịch trình trong ngày, ví dụ: ["14:00","Lễ gia tiên"], ["18:30","Nghi thức thành hôn"]
+  petals: true,        // false = tắt cánh hoa rơi
   showSampleWishes: false,  // đặt true để hiện lời chúc mẫu
   sampleWishes: [],
   gift: { bank: "", number: "", holder: "" }
@@ -329,10 +360,10 @@ $('rSend').onclick=async()=>{
 /* Phong thư: kéo lên (hoặc cuộn / chạm / phím) để mở */
 (function(){
   const env=$('env'), ev=$('ev'), fl=$('fl'); let y0=null, opened=false;
-  const root=document.documentElement; root.style.overflow='hidden';
+  const root=document.documentElement; root.style.overflow='hidden'; document.body.classList.add('pre');
   const reset=()=>{y0=null;ev.style.transform='';fl.style.transform=''};
   function open(){ if(opened) return; opened=true; reset(); env.classList.add('open');
-    setTimeout(()=>{env.classList.add('done');root.style.overflow='';window.scrollTo(0,0)},2700);
+    setTimeout(()=>{env.classList.add('done');root.style.overflow='';window.scrollTo(0,0);document.body.classList.replace('pre','opened');petals()},2700);
     setTimeout(()=>env.remove(),3700); }
   env.addEventListener('pointerdown',e=>{y0=e.clientY});
   env.addEventListener('pointermove',e=>{ if(y0===null||opened) return; const dy=y0-e.clientY;
@@ -343,6 +374,13 @@ $('rSend').onclick=async()=>{
   $('eBtn').addEventListener('click',open);
   addEventListener('keydown',e=>{if(['ArrowUp','ArrowDown','Enter',' '].includes(e.key)) open()});
 })();
+
+/* Cánh hoa rơi */
+function petals(){ if(c.petals===false||matchMedia('(prefers-reduced-motion:reduce)').matches) return;
+  const w=document.createElement('div'); w.id='petals';
+  for(let i=0;i<16;i++){const p=document.createElement('i');
+    p.style.cssText='left:'+(Math.random()*100)+'%;--s:'+(8+Math.random()*10)+'px;--d:'+(9+Math.random()*9)+'s;--w:'+(Math.random()*8)+'s;--x:'+(-60+Math.random()*120)+'px';w.appendChild(p)}
+  document.body.appendChild(w)}
 
 /* Hiệu ứng hiện dần */
 const els=document.querySelectorAll('.rv');
