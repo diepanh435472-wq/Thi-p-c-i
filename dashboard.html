@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>Quản lý thiệp cưới</title>
+<style>
+:root{--bg:#f1e4cc;--card:#f7eddb;--red:#8b1a1a;--gold:#a9822b;--ink:#4a2a22}
+@media (prefers-color-scheme:dark){:root{--bg:#2a0d0d;--card:#3a1414;--red:#e07b6e;--gold:#d4a94c;--ink:#f1e0c6}}
+*{box-sizing:border-box}
+body{margin:0;padding:20px 14px 110px;background:var(--bg);color:var(--ink);font:400 1rem/1.5 system-ui,sans-serif}
+main{max-width:720px;margin:0 auto}
+h1{margin:0 0 4px;color:var(--red);font:700 1.7rem Georgia,serif}
+h2{margin:0 0 10px;color:var(--red);font:700 1.1rem Georgia,serif;text-transform:uppercase;letter-spacing:.06em}
+section{margin:16px 0;padding:16px;background:var(--card);border:1px solid var(--gold)}
+label{display:block;margin:10px 0 0;font-size:.85rem;opacity:.9}
+input[type=text],input[type=datetime-local],textarea{width:100%;margin-top:4px;padding:10px;border:1px solid var(--gold);background:transparent;color:inherit;font:inherit}
+.ck{display:flex;gap:8px;align-items:center;font-size:.95rem}
+.r{display:flex;gap:6px;margin-bottom:8px}.r .t{flex:0 0 80px}.r .n{flex:1}
+.btn{padding:9px 14px;border:1px solid var(--red);background:none;color:var(--red);font:inherit;cursor:pointer}
+.btn:hover{background:var(--red);color:var(--card)}
+.fill{background:var(--red);color:var(--card)}
+.r .btn{padding:6px 10px}
+.bar{position:fixed;left:0;right:0;bottom:0;display:flex;gap:10px;align-items:center;flex-wrap:wrap;padding:12px 14px calc(12px + env(safe-area-inset-bottom,0px));background:var(--card);border-top:2px solid var(--red)}
+.bar input{flex:1 1 180px;padding:10px;border:1px solid var(--gold);background:transparent;color:inherit;font:inherit}
+#msg{flex:1 1 100%;font-size:.9rem;color:var(--red)}
+.warn{padding:10px;border:1px dashed var(--red);font-size:.9rem}
+</style>
+</head>
+<body>
+<main>
+  <h1>Quản lý thiệp cưới</h1>
+  <p>Chỉnh thông tin bên dưới rồi bấm <b>Lưu thay đổi</b>. Thiệp cập nhật sau khoảng nửa phút. <a href="/" target="_blank" rel="noopener">Xem thiệp</a></p>
+  <div id="warn" class="warn" hidden></div>
+  <div id="form"></div>
+  <section><h2>Lịch trình ngày cưới</h2><div id="sched"></div><button class="btn" id="addRow" type="button">+ Thêm mục</button></section>
+</main>
+<div class="bar">
+  <input id="pw" type="password" placeholder="Mật khẩu quản trị" autocomplete="current-password">
+  <button class="btn fill" id="save" type="button">Lưu thay đổi</button>
+  <div id="msg" role="status"></div>
+</div>
+<script>
+const $=s=>document.querySelector(s);
+const esc=s=>String(s).replace(/[&<>"]/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[m]));
+const DEF={groom:"CHÍ HẢI",bride:"TRANG NINH",
+ groomFamily:{father:"ĐẶNG CHÍ DŨNG",mother:"NGUYỄN THỊ THẮNG",address:"Thôn Hang Đùng, Xã Minh Hòa, Tỉnh Phú Thọ",oldAddress:"Thôn Hang Đùng, Xã Ngọc Lập, Huyện Yên Lập, Tỉnh Phú Thọ"},
+ brideFamily:{father:"TRẦN NGỌC TUẤN",mother:"NGUYỄN THỊ HÀO",address:"Thôn Phúc Lộc (Thôn Hòe Thị cũ), Xã Thượng Phúc, Thành phố Hà Nội",oldAddress:"Thôn Hòe Thị, Xã Nguyễn Trãi, Huyện Thường Tín, Thành phố Hà Nội"},
+ ceremonyAt:"Nhà Trai",date:"2026-12-27T10:00:00+07:00",lunar:"Tức ngày 19 tháng 11 năm Bính Ngọ",
+ venue:"Nhà Trai",address:"Thôn Hang Đùng, Xã Minh Hòa, Tỉnh Phú Thọ",mapQuery:"21.260889,105.083194",mapEmbed:"",mapUrl:"",embedMap:true,
+ schedule:[],gift:{bank:"",number:"",holder:""},albumUrl:"",groomPhoto:"",bridePhoto:"",photos:[],petals:true};
+const F=[
+ ['Cặp đôi',[['groom','Tên chú rể'],['bride','Tên cô dâu'],['ceremonyAt','Lễ thành hôn tổ chức tại (ví dụ: Nhà Trai)']]],
+ ['Nhà trai',[['groomFamily.father','Tên ông'],['groomFamily.mother','Tên bà'],['groomFamily.address','Địa chỉ hiện tại'],['groomFamily.oldAddress','Địa chỉ cũ (có thể để trống)']]],
+ ['Nhà gái',[['brideFamily.father','Tên ông'],['brideFamily.mother','Tên bà'],['brideFamily.address','Địa chỉ hiện tại'],['brideFamily.oldAddress','Địa chỉ cũ (có thể để trống)']]],
+ ['Thời gian',[['date','Ngày giờ lễ (giờ Việt Nam)','datetime-local'],['lunar','Ngày âm lịch (ví dụ: Tức ngày 19 tháng 11 năm Bính Ngọ)']]],
+ ['Địa điểm tiệc cưới',[['venue','Tên nơi tổ chức'],['address','Địa chỉ'],['mapQuery','Tọa độ hoặc địa chỉ để tìm trên bản đồ'],['mapEmbed','Mã nhúng Google Maps (không bắt buộc, có thể dán cả đoạn iframe)'],['mapUrl','Link chỉ đường riêng (không bắt buộc, bắt đầu bằng https://)'],['embedMap','Hiện Google Map nhúng trong thiệp','checkbox']]],
+ ['Mừng cưới',[['gift.bank','Ngân hàng'],['gift.number','Số tài khoản (để trống = ẩn mục Hộp quà mừng)'],['gift.holder','Tên chủ tài khoản']]],
+ ['Ảnh và album',[['groomPhoto','Link ảnh chú rể (https://)'],['bridePhoto','Link ảnh cô dâu (https://)'],['albumUrl','Link trang album cho nút "Xem thêm"'],['photos','Link ảnh album, mỗi dòng một link, tối đa 3','textarea']]],
+ ['Hiệu ứng',[['petals','Cánh hoa rơi','checkbox']]]
+];
+const id=p=>'f_'+p.replace(/\./g,'_');
+const get=(o,p)=>p.split('.').reduce((a,k)=>a==null?a:a[k],o);
+const set=(o,p,v)=>{const k=p.split('.');const last=k.pop();k.forEach(x=>o=o[x]=o[x]||{});o[last]=v};
+const merge=(a,b)=>{const o={...a,...b};['groomFamily','brideFamily','gift'].forEach(k=>o[k]={...a[k],...(b[k]||{})});return o};
+function field(p,l,ty='text'){const v=get(cfg,p);
+ if(ty==='checkbox') return `<label class="ck"><input type="checkbox" id="${id(p)}" ${v!==false?'checked':''}> ${l}</label>`;
+ if(ty==='textarea') return `<label>${l}<textarea id="${id(p)}" rows="3">${esc((v||[]).join('\n'))}</textarea></label>`;
+ const val=ty==='datetime-local'?String(v||'').slice(0,16):(v||'');
+ return `<label>${l}<input type="${ty}" id="${id(p)}" value="${esc(val)}"></label>`}
+function row(t='',n=''){const r=document.createElement('div');r.className='r';
+ r.innerHTML=`<input class="t" type="text" placeholder="14:00" maxlength="10" value="${esc(t)}"><input class="n" type="text" placeholder="Nội dung, ví dụ: Đón dâu" maxlength="120" value="${esc(n)}"><button class="btn" type="button" title="Lên">↑</button><button class="btn" type="button" title="Xuống">↓</button><button class="btn" type="button" title="Xóa">✕</button>`;
+ const b=r.querySelectorAll('button');
+ b[0].onclick=()=>r.previousElementSibling&&r.parentNode.insertBefore(r,r.previousElementSibling);
+ b[1].onclick=()=>r.nextElementSibling&&r.parentNode.insertBefore(r.nextElementSibling,r);
+ b[2].onclick=()=>r.remove(); $('#sched').appendChild(r)}
+function collect(){const out={};
+ F.forEach(([,fs])=>fs.forEach(([p,,ty])=>{const el=$('#'+id(p));let v;
+  if(ty==='checkbox') v=el.checked;
+  else if(ty==='textarea') v=el.value.split('\n').map(s=>s.trim()).filter(Boolean).slice(0,3);
+  else if(ty==='datetime-local') v=el.value?el.value+':00+07:00':null;
+  else{v=el.value.trim();if(p==='mapEmbed'){const m=v.match(/src="([^"]+)"/);if(m)v=m[1]}}
+  set(out,p,v)}));
+ out.schedule=[...document.querySelectorAll('#sched .r')].map(r=>[r.querySelector('.t').value.trim(),r.querySelector('.n').value.trim()]).filter(s=>s[1]);
+ return out}
+let cfg=merge(DEF,{});
+async function load(){
+ try{const r=await fetch('/api/config?t='+Date.now(),{cache:'no-store'});const d=await r.json().catch(()=>({}));
+  if(r.ok) cfg=merge(DEF,d); else {$('#warn').hidden=false;$('#warn').textContent=(d.error||'Chưa đọc được dữ liệu đã lưu.')+' Đang hiện thông tin mặc định.'}}
+ catch(e){$('#warn').hidden=false;$('#warn').textContent='Chưa kết nối được máy chủ. Đang hiện thông tin mặc định.'}
+ $('#form').innerHTML=F.map(([t,fs])=>`<section><h2>${t}</h2>${fs.map(f=>field(...f)).join('')}</section>`).join('');
+ (cfg.schedule||[]).forEach(s=>row(s[0],s[1]))}
+$('#addRow').onclick=()=>row();
+$('#save').onclick=async()=>{const m=$('#msg');
+ if(!$('#pw').value){m.textContent='Hãy nhập mật khẩu quản trị.';return}
+ m.textContent='Đang lưu…';
+ try{const r=await fetch('/api/config',{method:'PUT',headers:{'Content-Type':'application/json','x-admin-password':$('#pw').value},body:JSON.stringify(collect())});
+  const d=await r.json().catch(()=>({}));
+  m.textContent=r.ok?'Đã lưu. Thiệp sẽ cập nhật sau khoảng nửa phút.':(d.error||'Không lưu được.')}
+ catch(e){m.textContent='Không kết nối được máy chủ.'}};
+load();
+</script>
+</body>
+</html>

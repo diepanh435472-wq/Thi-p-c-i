@@ -1,0 +1,9 @@
+{
+  "rewrites": [
+    { "source": "/dashboard/0342195", "destination": "/dashboard.html" }
+  ],
+  "headers": [
+    { "source": "/dashboard.html", "headers": [{ "key": "X-Robots-Tag", "value": "noindex, nofollow" }] },
+    { "source": "/dashboard/0342195", "headers": [{ "key": "X-Robots-Tag", "value": "noindex, nofollow" }] }
+  ]
+}

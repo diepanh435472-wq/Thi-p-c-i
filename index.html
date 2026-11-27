@@ -277,6 +277,9 @@ const weddingConfig = {
   gift: { bank: "", number: "", holder: "" }
 };
 /* ======================================================================================= */
+/* Lấy thông tin đã chỉnh trong trang quản lý (nếu có); lỗi thì dùng cấu hình ở trên */
+(async()=>{
+try{const r=await fetch('/api/config',{cache:'no-store'});if(r.ok){const d=await r.json();if(d&&typeof d==='object'&&!Array.isArray(d))Object.assign(weddingConfig,d)}}catch(e){}
 const $=id=>document.getElementById(id), c=weddingConfig, p2=n=>String(n).padStart(2,'0');
 const esc=s=>String(s).replace(/[&<>"]/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[m]));
 $('groom').textContent=c.groom; $('bride').textContent=c.bride; $('yr').textContent=new Date().getFullYear();
@@ -397,6 +400,7 @@ function petals(){ if(c.petals===false||matchMedia('(prefers-reduced-motion:redu
 const els=document.querySelectorAll('.rv');
 if('IntersectionObserver' in window){const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target)}}),{threshold:.1});els.forEach(e=>io.observe(e))}
 else els.forEach(e=>e.classList.add('in'));
+})();
 </script>
 </body>
 </html>
